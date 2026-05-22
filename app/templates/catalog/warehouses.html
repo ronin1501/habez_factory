@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="bg-white p-4 shadow-sm border-top border-warning border-3">
+        <h2 class="section-title mb-3">Остатки готовой продукции на складах</h2>
+        <p class="text-muted mb-4">Уважаемый партнер! В данной таблице приведены актуальные объемы складских запасов ОАО "Хабезский Гипсовый завод" на распределительных узлах юга России.</p>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="text-start">Наименование строительного материала</th>
+                        <th>Артикул</th>
+                        {% for wh in warehouses %}
+                        <th>{{ wh.name }} <br><span class="fw-normal text-muted small" style="font-size: 0.75rem;">г. {{ wh.city }}</span></th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prod in products %}
+                    <tr>
+                        <td class="text-start fw-semibold text-dark">{{ prod.name }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ prod.sku }}</span></td>
+                        {% for wh in warehouses %}
+                            <td>
+                                {% set qty = [0] %}
+                                {% for st in stocks %}
+                                    {% if st.product_id == prod.id and st.warehouse_id == wh.id %}
+                                        {% if qty.append(st.quantity) %}{% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if qty[-1] > 500 %}
+                                    <span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> {{ qty[-1] }} шт.</span>
+                                {% elif qty[-1] > 0 %}
+                                    <span class="text-warning fw-bold"><i class="bi bi-exclamation-circle-fill"></i> {{ qty[-1] }} шт.</span>
+                                {% else %}
+                                    <span class="text-danger small"><i class="bi bi-x-circle-fill"></i> Нет в наличии</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="warehouse-map" data-warehouses='[
+            {% for wh in warehouses %}
+                {"name": "{{ wh.name }}", "address": "г. {{ wh.city }}, {{ wh.address }}"}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]' class="mt-4 p-4 rounded-1 text-dark text-start" style="background-color: #f8f9fa; border-left: 4px solid #ffc107;">
+            <h5 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill text-danger"></i> Точки дистрибуции</h5>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock %}

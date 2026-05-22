@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="bg-white p-4 shadow-sm border-top border-dark border-3">
+                <div class="text-center mb-3">
+                    <i class="bi bi-building-fill text-secondary display-4"></i>
+                    <h5 class="fw-bold text-dark mt-2 mb-0">{{ current_user.profile.company_name if current_user.profile else 'Организация' }}</h5>
+                    <span class="badge bg-warning text-dark px-3 py-1.5 rounded-1 mt-2 text-uppercase fs-7">Статус: Официальный дилер</span>
+                </div>
+                <hr>
+                <div class="small">
+                    <p class="mb-1 text-muted"><strong>ИНН:</strong> {{ current_user.profile.inn }}</p>
+                    <p class="mb-1 text-muted"><strong>КПП:</strong> {{ current_user.profile.kpp }}</p>
+                    <p class="mb-1 text-muted"><strong>Email:</strong> {{ current_user.email }}</p>
+                    <p class="mb-1 text-muted"><strong>Телефон:</strong> {{ current_user.phone }}</p>
+                    <p class="mb-0 text-muted"><strong>Адрес:</strong> {{ current_user.profile.legal_address }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="bg-white p-4 shadow-sm">
+                <h4 class="fw-bold text-dark mb-4 text-uppercase small tracking-wider border-bottom pb-2">История оптовых поставок</h4>
+                {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover border align-middle text-center small">
+                        <thead class="table-light">
+                            <tr>
+                                <th>№ Заказа</th>
+                                <th>Дата</th>
+                                <th>Тип доставки</th>
+                                <th>Сумма контракта</th>
+                                <th>Текущий статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td class="fw-bold">№ {{ order.id }}</td>
+                                <td>{{ order.order_date.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>{{ order.delivery_type }}</td>
+                                <td class="fw-semibold text-danger">{{ order.total_price }} ₽</td>
+                                <td>
+                                    <span class="badge bg-success px-2.5 py-1.5 rounded-1 text-uppercase">{{ order.current_status.status_name }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5 border border-dashed">
+                    <i class="bi bi-clipboard2-minus display-4 text-muted"></i>
+                    <p class="mt-2 text-muted mb-0">У вашей организации пока нет активных или завершенных заказов на поставку.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

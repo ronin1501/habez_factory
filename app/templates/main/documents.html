@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Техническая документация{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-light" style="background-color: #121212; padding: 40px; border-radius: 10px;">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold" style="color: #ffc107;">Техническая документация</h1>
+            <p class="mb-0" style="color: #b5b5b5;">Официальные сертификаты, ГОСТы и паспорта качества продукции ОАО «Хабезский Гипсовый завод»</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <span class="badge p-3 fs-6" style="background-color: #1e1e1e; border: 1px solid #ffc107; color: #ffc107;">
+                <i class="bi bi-file-earmark-check"></i> Документы проверены
+            </span>
+        </div>
+    </div>
+
+    {% if documents %}
+    <div class="table-responsive mt-4">
+        <table class="table table-dark table-hover align-middle border border-secondary" style="background-color: #1e1e1e;">
+            <thead class="table-dark text-warning border-secondary">
+                <tr class="text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">
+                    <th scope="col" class="py-3 px-4">Наименование</th>
+                    <th scope="col" class="py-3">Описание</th>
+                    <th scope="col" class="py-3">Категория</th>
+                    <th scope="col" class="py-3">Дата загрузки</th>
+                    <th scope="col" class="py-3 text-end px-4">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in documents %}
+                <tr style="border-bottom: 1px solid #2d2d2d; transition: background-color 0.2s;">
+                    <td class="fw-bold py-3 px-4 text-white" style="font-size: 0.95rem;">
+                        <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>{{ doc.title }}
+                    </td>
+                    <td class="text-secondary small py-3" style="max-width: 350px;">{{ doc.description }}</td>
+                    <td class="py-3">
+                        <span class="badge text-dark fw-bold px-3 py-2" style="background-color: #ffc107;">
+                            {{ doc.category }}
+                        </span>
+                    </td>
+                    <td class="text-secondary small py-3">{{ doc.upload_date.strftime('%d.%m.%Y') }}</td>
+                    <td class="py-3 text-end px-4">
+                        <a href="{{ url_for('static', filename='docs/' + doc.file_path) }}" 
+                           class="btn btn-sm btn-outline-warning text-uppercase fw-bold px-3 py-2" target="_blank" style="font-size: 0.75rem; border-radius: 1px;">
+                            <i class="bi bi-file-earmark-arrow-down-fill me-1"></i> Открыть PDF
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-dark border border-secondary p-4 mt-4 text-center" style="background-color: #1e1e1e;">
+            <i class="bi bi-info-circle text-warning fs-3 mb-2 d-block"></i>
+            <span class="text-white">Документы в данный момент не добавлены.</span>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

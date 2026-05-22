@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="bg-white p-4 shadow-sm border-top border-dark border-3">
+                <h4 class="fw-bold text-uppercase text-dark mb-3">Регистрация нового контрагента / дилера</h4>
+                <p class="text-muted small border-bottom pb-2">Для получения доступа к B2B-системе учета остатков продукции и оптовым ценам, пожалуйста, заполните официальную анкету организации юр. лица.</p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <h6 class="fw-bold text-warning text-uppercase mb-3" style="font-size: 0.8rem;">1. Учетные данные системы</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Email организации</label>
+                            {{ form.email(class="form-control rounded-1") }}
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Контактный телефон</label>
+                            {{ form.phone(class="form-control rounded-1") }}
+                            {% if form.phone.errors %}
+                                {% for error in form.phone.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Пароль</label>
+                            {{ form.password(class="form-control rounded-1") }}
+                            {% if form.password.errors %}
+                                {% for error in form.password.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Повторите пароль</label>
+                            {{ form.confirm_password(class="form-control rounded-1") }}
+                            {% if form.confirm_password.errors %}
+                                {% for error in form.confirm_password.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <h6 class="fw-bold text-warning text-uppercase mb-3 pt-2 border-top" style="font-size: 0.8rem;">2. Юридические данные компании</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-12">
+                            <label class="form-label small fw-semibold text-muted">Полное наименование организации / ИП</label>
+                            {{ form.company_name(class="form-control rounded-1") }}
+                            {% if form.company_name.errors %}
+                                {% for error in form.company_name.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">ИНН</label>
+                            {{ form.inn(class="form-control rounded-1") }}
+                            {% if form.inn.errors %}
+                                {% for error in form.inn.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">КПП</label>
+                            {{ form.kpp(class="form-control rounded-1") }}
+                            {% if form.kpp.errors %}
+                                {% for error in form.kpp.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-semibold text-muted">Юридический адрес регистрации</label>
+                            {{ form.legal_address(class="form-control rounded-1") }}
+                            {% if form.legal_address.errors %}
+                                {% for error in form.legal_address.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {{ form.submit(class="btn btn-dark w-100 py-2.5 text-uppercase fw-bold rounded-1") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

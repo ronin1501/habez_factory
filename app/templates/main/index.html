@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-dark text-white rounded-0 position-relative shadow" style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200') no-repeat center center; background-size: cover; padding-top: 100px !important; padding-bottom: 100px !important;">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold text-uppercase">Строительные материалы<br>от производителя</h1>
+        <p class="col-md-8 fs-5 text-secondary mt-3">ОАО «Хабезский Гипсовый завод» — стабильность, проверенная временем. Высокотехнологичное производство сухих строительных смесей, гипсокартона и пазогребневых плит на базе собственного месторождения гипса.</p>
+        <div class="d-flex gap-3 mt-4">
+            <a href="{{ url_for('catalog.catalog') }}" class="btn btn-warning btn-lg px-4 fw-bold text-uppercase rounded-1 text-dark">Перейти в каталог</a>
+            <a href="{{ url_for('main.about') }}" class="btn btn-outline-light btn-lg px-4 text-uppercase rounded-1">О производстве</a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="section-title">Основные направления производства</h2>
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-0 position-relative overflow-hidden product-card">
+                <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=500" class="card-img-top rounded-0" style="height: 220px; object-fit: cover;" alt="Сухие смеси">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Сухие строительные смеси</h5>
+                    <p class="card-text text-muted small">Штукатурки, шпаклевки, клеи для плитки и монтажные смеси на гипсовой и цементной основе.</p>
+                    <a href="{{ url_for('catalog.catalog') }}?category=smesi" class="btn btn-link p-0 text-warning text-decoration-none fw-semibold">Смотреть товары <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-0 position-relative overflow-hidden product-card">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=500" class="card-img-top rounded-0" style="height: 220px; object-fit: cover;" alt="Гипсокартон">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Гипсокартонные листы (ГКЛ)</h5>
+                    <p class="card-text text-muted small">Обычный, влагостойкий и огневлагостойкий гипсокартон для возведения перегородок и потолков.</p>
+                    <a href="{{ url_for('catalog.catalog') }}?category=gipsokarton" class="btn btn-link p-0 text-warning text-decoration-none fw-semibold">Смотреть товары <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-0 position-relative overflow-hidden product-card">
+                <img src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?q=80&w=500" class="card-img-top rounded-0" style="height: 220px; object-fit: cover;" alt="Плиты ПГП">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Пазогребневые плиты (ПГП)</h5>
+                    <p class="card-text text-muted small">Гипсовые плиты для быстрого монтажа межкомнатных перегородок: полнотелые, пустотелые, гидрофобизированные.</p>
+                    <a href="{{ url_for('catalog.catalog') }}?category=plity" class="btn btn-link p-0 text-warning text-decoration-none fw-semibold">Смотреть товары <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white py-5 border-top border-bottom">
+    <div class="container my-4">
+        <h2 class="section-title">Почему выбирают ОАО "Хабезский Гипс"</h2>
+        <div class="row g-4 mt-2">
+            <div class="col-md-3">
+                <div class="feature-box">
+                    <div class="mb-3"><i class="bi bi-gem text-warning"></i></div>
+                    <h5 class="fw-bold">Собственное сырье</h5>
+                    <p class="text-muted small mb-0">Добыча экологически чистого гипса в собственном карьере гарантирует чистоту готового продукта.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-box">
+                    <div class="mb-3"><i class="bi bi-cpu text-warning"></i></div>
+                    <h5 class="fw-bold">Немецкое качество</h5>
+                    <p class="text-muted small mb-0">Заводы оснащены автоматизированными европейскими производственными линиями контроля качества.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-box">
+                    <div class="mb-3"><i class="bi bi-truck text-warning"></i></div>
+                    <h5 class="fw-bold">B2B Логистика</h5>
+                    <p class="text-muted small mb-0">Развитая сеть складов-филиалов и собственная логистическая цепочка поставок для крупных дилеров.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-box">
+                    <div class="mb-3"><i class="bi bi-file-earmark-check text-warning"></i></div>
+                    <h5 class="fw-bold">Строгий ГОСТ</h5>
+                    <p class="text-muted small mb-0">Вся выпускаемая продукция проходит жесткий контроль в заводской лаборатории и сертифицирована.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

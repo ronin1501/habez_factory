@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}Оформление заказа | ОАО "Хабезский Гипсовый Завод"{% endblock %}
+
+{% block content %}
+<div class="py-5 bg-light">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}" class="text-decoration-none text-muted">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('catalog.catalog') }}" class="text-decoration-none text-muted">Каталог</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('catalog.view_cart') }}" class="text-decoration-none text-muted">Корзина</a></li>
+                <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Оформление</li>
+            </ol>
+        </nav>
+
+        <h1 class="h2 text-uppercase fw-bold text-dark mb-4 pb-2 border-bottom border-warning border-3 d-inline-block">Оформление заказа</h1>
+
+        <div class="row g-4">
+            <!-- Форма заказа -->
+            <div class="col-lg-7">
+                <form method="post" id="checkout-form">
+                    {% if current_user.is_authenticated %}
+                    <div class="card border-0 shadow-sm rounded-1 p-4 mb-4">
+                        <h5 class="fw-bold text-dark mb-4"><i class="bi bi-briefcase me-2 text-warning"></i>Данные организации</h5>
+                        
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-muted">Компания</label>
+                                <input type="text" class="form-control bg-light rounded-1 fw-medium" value="{{ current_user.profile.company_name if current_user.profile else 'Не указано' }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">ИНН</label>
+                                <input type="text" class="form-control bg-light rounded-1" value="{{ current_user.profile.inn if current_user.profile else 'Не указано' }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">КПП</label>
+                                <input type="text" class="form-control bg-light rounded-1" value="{{ current_user.profile.kpp if current_user.profile else 'Не указано' }}" readonly>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-muted">Юридический адрес</label>
+                                <input type="text" class="form-control bg-light rounded-1" value="{{ current_user.profile.legal_address if current_user.profile else 'Не указано' }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card border-0 shadow-sm rounded-1 p-4 mb-4">
+                        <h5 class="fw-bold text-dark mb-4"><i class="bi bi-person-lines-fill me-2 text-warning"></i>Контактные данные покупателя</h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="fio" class="form-label small fw-semibold text-muted">ФИО / Контактное лицо</label>
+                                <input type="text" name="fio" id="fio" class="form-control rounded-1" placeholder="Иванов Иван Иванович" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label small fw-semibold text-muted">Телефон</label>
+                                <input type="tel" name="phone" id="phone" class="form-control rounded-1" placeholder="+7 (999) 111-22-33" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label small fw-semibold text-muted">Email</label>
+                                <input type="email" name="email" id="email" class="form-control rounded-1" placeholder="customer@example.com" required>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="card border-0 shadow-sm rounded-1 p-4">
+                        <h5 class="fw-bold text-dark mb-4"><i class="bi bi-truck me-2 text-warning"></i>Способ получения</h5>
+                        
+                        <div class="mb-4">
+                            <div class="form-check form-check-inline me-4">
+                                <input class="form-check-input" type="radio" name="delivery_type" id="deliverySelf" value="Самовывоз" checked onchange="toggleAddress(false)">
+                                <label class="form-check-label fw-semibold text-dark" for="deliverySelf">
+                                    <i class="bi bi-shop me-1 text-muted"></i> Самовывоз с завода
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="delivery_type" id="deliveryShip" value="Доставка" onchange="toggleAddress(true)">
+                                <label class="form-check-label fw-semibold text-dark" for="deliveryShip">
+                                    <i class="bi bi-truck me-1 text-muted"></i> Доставка автотранспортом
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="address-container" class="mb-4 d-none">
+                            <label for="delivery_address" class="form-label small fw-semibold text-muted">Адрес доставки</label>
+                            <textarea name="delivery_address" id="delivery_address" class="form-control rounded-1" rows="3" placeholder="Введите полный адрес доставки..."></textarea>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-warning text-dark text-uppercase fw-bold py-2.5 rounded-1 shadow">
+                                Подтвердить и отправить заказ
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Состав заказа -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-1 p-4 bg-dark text-light">
+                    <h5 class="text-uppercase fw-bold text-warning mb-4 pb-2 border-bottom border-secondary">Состав заказа</h5>
+                    
+                    <div class="order-items-list mb-4" style="max-height: 350px; overflow-y: auto;">
+                        {% for item in cart_items %}
+                        <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom border-secondary">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="{{ url_for('static', filename=item.product.image_url) }}" alt="{{ item.product.name }}" class="rounded bg-light p-1" style="width: 45px; height: 45px; object-fit: contain;">
+                                <div>
+                                    <h6 class="mb-0 text-white small fw-bold text-truncate" style="max-width: 180px;">{{ item.product.name }}</h6>
+                                    <span class="text-muted small">{{ item.quantity }} шт. × {{ "%.2f"|format(item.product.price) }} ₽</span>
+                                </div>
+                            </div>
+                            <span class="fw-bold text-warning small">{{ "%.2f"|format(item.total) }} ₽</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <span class="text-secondary fw-semibold">Итого к оплате:</span>
+                        <span class="fw-bold text-warning fs-4">{{ "%.2f"|format(total_price) }} ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAddress(show) {
+    const container = document.getElementById('address-container');
+    const input = document.getElementById('delivery_address');
+    if (show) {
+        container.classList.remove('d-none');
+        input.setAttribute('required', 'required');
+    } else {
+        container.classList.add('d-none');
+        input.removeAttribute('required');
+        input.value = '';
+    }
+}
+</script>
+{% endblock %}

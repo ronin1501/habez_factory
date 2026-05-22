@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 text-light" style="background-color: #121212; padding: 40px; border-radius: 10px;">
+    
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold" style="color: #ffc107;">ОАО «Хабезский Гипсовый Завод»</h1>
+        <p class="lead text-muted">Высокотехнологичное производство строительных материалов на юге России</p>
+        <hr class="w-25 mx-auto" style="border-color: #ffc107; height: 3px; opacity: 1;">
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h2 class="h3 mb-3 text-white">Опережая стандарты качества</h2>
+            <p class="text-secondary">Хабезский гипсовый завод (аул Хабез, Карачаево-Черкесская Республика) — это современное, динамично развивающееся предприятие, специализирующееся на добыче гипса и производстве высококачественных строительных материалов.</p>
+            <p class="text-secondary">Мы контролируем весь цикл производства: от бережной добычи сырья в экологически чистом карьере до упаковки готовых сухих смесей, гипсокартона и пазогребневых плит. Наша цель — обеспечение строительного рынка надежными и безопасными материалами.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="border rounded p-5 d-flex align-items-center justify-content-center" style="min-height: 250px; background-color: #1e1e1e; border-color: #333 !important;">
+                <span class="text-muted"><i class="bi bi-building" style="font-size: 3rem; color: #ffc107;"></i><br>Фото завода «Хабез»</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center my-5 py-4 rounded shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+        <div class="col-md-3 mb-3 mb-md-0">
+            <h3 class="display-5 fw-bold" style="color: #ffc107;">25+</h3>
+            <p class="text-white mb-0">Лет на рынке</p>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+            <h3 class="display-5 fw-bold" style="color: #ffc107;">50+</h3>
+            <p class="text-white mb-0">Наименований продукции</p>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+            <h3 class="display-5 fw-bold" style="color: #ffc107;">100%</h3>
+            <p class="text-white mb-0">Экологичное сырье</p>
+        </div>
+        <div class="col-md-3">
+            <h3 class="display-5 fw-bold" style="color: #ffc107;">10 000+</h3>
+            <p class="text-white mb-0">Тонн продукции в месяц</p>
+        </div>
+    </div>
+
+    <h2 class="text-center h3 my-5 text-white">Наше производство</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" style="color: #ffc107;"><i class="bi bi-gem"></i> Собственная сырьевая база</h5>
+                    <p class="card-text text-secondary">Добыча гипсового камня ведется открытым способом на собственном месторождении. Это гарантирует чистоту базового сырья без сторонних примесей.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" style="color: #ffc107;"><i class="bi bi-gear-wide-connected"></i> Современные цеха</h5>
+                    <p class="card-text text-secondary">Завод оснащен автоматизированными европейскими линиями по производству гипсокартонных листов (ГКЛ), пазогребневых плит и сухих строительных смесей.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" style="color: #ffc107;"><i class="bi bi-microscope"></i> Контроль качества (ОТК)</h5>
+                    <p class="card-text text-secondary">Собственная аттестованная лаборатория осуществляет строжайший сквозной контроль: от каждой поступающей партии сырья до испытания готовой продукции на прочность и изгиб.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 p-4 rounded text-dark" style="background-color: #ffc107;">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h4 class="fw-bold text-black">Логистика и география поставок</h4>
+                <p class="mb-md-0 fw-semibold text-black">Благодаря развитой B2B-системе и дилерской сети, продукция Хабезского гипсового завода бесперебойно поставляется во все регионы Северо-Кавказского и Южного федеральных округов.</p>
+            </div>
+            <div class="col-md-4 text-md-end text-center">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-dark btn-lg fw-bold border-2" style="border-color: #000;">Стать дилером</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

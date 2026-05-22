@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 text-light" style="background-color: #121212; padding: 40px; border-radius: 10px;">
+    
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold" style="color: #ffc107;">Каталог продукции</h1>
+            <p class="mb-0" style="color: #b5b5b5;">Высококачественные строительные материалы от производителя ОАО «Хабезский Гипсовый Завод»</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <span class="badge p-3 fs-6" style="background-color: #1e1e1e; border: 1px solid #ffc107; color: #ffc107;">
+                <i class="bi bi-box-seam"></i> ГОСТ стандарты качества
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="p-3 rounded shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                <h5 class="fw-bold mb-3 pb-2 text-white" style="border-bottom: 2px solid #ffc107;">
+                    <i class="bi bi-filter-square" style="color: #ffc107;"></i> Категории
+                </h5>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('catalog.catalog') }}" class="list-group-item list-group-item-action bg-transparent {% if not current_category %}active-yellow-link text-white fw-bold{% else %}text-secondary{% endif %}" style="border-color: #222;">
+                        <i class="bi bi-grid-fill" style="color: #ffc107;"></i> Все материалы
+                    </a>
+                    {% if categories %}
+                        {% for category in categories %}
+                            <a href="{{ url_for('catalog.catalog', category_id=category.id) }}" class="list-group-item list-group-item-action bg-transparent {% if current_category == category.id %}active-yellow-link text-white fw-bold{% else %}text-secondary{% endif %}" style="border-color: #222; transition: 0.3s;">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="mt-4 p-3 rounded bg-dark text-center" style="border: 1px dashed #ffc107;">
+                    <h6 class="text-white small fw-bold mb-1"><i class="bi bi-calculator text-warning me-1"></i> Калькулятор расхода</h6>
+                    <p class="small mb-2" style="font-size: 0.78rem; color: #b5b5b5;">Быстрый подбор необходимого объема материалов для вашей площади</p>
+                    <button class="btn btn-sm btn-warning text-dark fw-bold w-100" data-bs-toggle="modal" data-bs-target="#generalCalcModal">Запустить расчет</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% if not products %}
+                <div class="alert alert-dark p-4 rounded mb-5" style="background-color: #1e1e1e; border: 1px solid #333;">
+                    <h4 class="text-white mb-2"><i class="bi bi-info-circle" style="color: #ffc107;"></i> Демонстрационная структура завода</h4>
+                    <p class="text-secondary small mb-0">В базе данных системы пока нет загруженных позиций. Ниже представлены основные производственные направления завода «Хабез» для ознакомления комиссии:</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                            <div class="p-4 text-center bg-dark rounded-top" style="border-bottom: 3px solid #ffc107;">
+                                <i class="bi bi-layers-half" style="font-size: 3rem; color: #ffc107;"></i>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-white">Гипсокартон (ГКЛ)</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Обычные, влагостойкие и огнестойкие гипсокартонные листы для возведения перегородок и облицовки стен.</p>
+                                <button class="btn btn-outline-warning w-100 mt-3 btn-sm" disabled>Открыть раздел</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                            <div class="p-4 text-center bg-dark rounded-top" style="border-bottom: 3px solid #ffc107;">
+                                <i class="bi bi-bucket" style="font-size: 3rem; color: #ffc107;"></i>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-white">Сухие смеси</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Штукатурки, шпатлевки, монтажные и клеевые смеси на основе экологически чистого гипса собственного карьера.</p>
+                                <button class="btn btn-outline-warning w-100 mt-3 btn-sm" disabled>Открыть раздел</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                            <div class="p-4 text-center bg-dark rounded-top" style="border-bottom: 3px solid #ffc107;">
+                                <i class="bi bi-bricks" style="font-size: 3rem; color: #ffc107;"></i>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-white">Пазогребневые плиты</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Гипсовые плиты (ПГП) для быстрого и экономичного возведения межкомнатных ненесущих перегородок.</p>
+                                <button class="btn btn-outline-warning w-100 mt-3 btn-sm" disabled>Открыть раздел</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="row g-4">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333;">
+                                <div class="text-center bg-dark rounded-top p-2" style="border-bottom: 3px solid #ffc107; height: 180px; overflow: hidden;">
+                                    {% if product.image_url %}
+                                        <img src="{{ url_for('static', filename=product.image_url) }}" alt="{{ product.name }}" class="img-fluid h-100 object-fit-contain">
+                                    {% else %}
+                                        <i class="bi bi-box-seam" style="font-size: 3.5rem; color: #444;"></i>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="card-body d-flex flex-column">
+                                    <span class="badge mb-2 align-self-start text-dark" style="background-color: #ffc107;">{{ product.category.name }}</span>
+                                    <h5 class="card-title fw-bold text-white fs-6 mb-1">{{ product.name }}</h5>
+                                    
+                                    <div class="mb-2 small fw-semibold" style="color: #28a745;">
+                                        <i class="bi bi-check-circle-fill"></i> В наличии
+                                    </div>
+
+                                    <p class="card-text text-secondary small flex-grow-1" style="font-size: 0.85rem;">{{ product.description | truncate(95) }}</p>
+                                    
+                                    <div class="mt-3 d-flex justify-content-between align-items-center gap-2">
+                                        <span class="fw-bold fs-6" style="color: #ffc107;">{{ product.price }} ₽</span>
+                                        <div class="d-flex gap-1">
+                                            <a href="/catalog/product/{{ product.id }}" class="btn btn-dark btn-sm border-warning text-warning px-2" style="font-size: 0.8rem;">Подробнее</a>
+                                                <button onclick="addToCart({{ product.id }}, 1)" class="btn btn-warning btn-sm text-dark px-2" style="font-size: 0.8rem;" title="В корзину"><i class="bi bi-cart-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .active-yellow-link {
+        background-color: #ffc107 !important;
+        color: #000 !important;
+    }
+    .active-yellow-link i {
+        color: #000 !important;
+    }
+    .list-group-item-action:hover {
+        background-color: #222 !important;
+        color: #ffc107 !important;
+    }
+</style>
+
+<!-- Модальное окно общего калькулятора расхода -->
+<div class="modal fade" id="generalCalcModal" tabindex="-1" aria-labelledby="generalCalcModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border border-secondary rounded-1">
+            <div class="modal-header border-bottom border-secondary">
+                <h5 class="modal-title fw-bold text-warning" id="generalCalcModalLabel">
+                    <i class="bi bi-calculator me-2"></i>Калькулятор расхода
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="genCalcForm">
+                    <div class="mb-3">
+                        <label for="genCalcProduct" class="form-label small fw-semibold text-muted">Выберите продукцию</label>
+                        <select class="form-select bg-light text-dark rounded-1 fw-medium" id="genCalcProduct" required>
+                            {% for product in products %}
+                                <option value="{{ product.id }}" data-price="{{ product.price }}" data-weight="{{ product.weight }}" data-category="{{ product.category.slug if product.category else '' }}">
+                                    {{ product.name }} ({{ product.weight }} кг/л) — {{ "%.2f"|format(product.price) }} ₽
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="genCalcSurface" class="form-label small fw-semibold text-muted">Тип обрабатываемой поверхности</label>
+                        <select class="form-select bg-light text-dark rounded-1" id="genCalcSurface" required>
+                            <option value="Кирпичная стена">Кирпичная стена</option>
+                            <option value="Бетонное основание">Бетонное основание</option>
+                            <option value="Пазогребневая плита">Пазогребневая плита</option>
+                            <option value="Гладкая стена (под покраску)">Гладкая стена (под покраску)</option>
+                        </select>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <label for="genCalcArea" class="form-label small fw-semibold text-muted">Площадь (м²)</label>
+                            <input type="number" class="form-control bg-light text-dark rounded-1" id="genCalcArea" min="1" value="10" required>
+                        </div>
+                        <div class="col-6" id="genCalcThicknessCol">
+                            <label for="genCalcThickness" class="form-label small fw-semibold text-muted">Слой (мм)</label>
+                            <input type="number" class="form-control bg-light text-dark rounded-1" id="genCalcThickness" min="1" value="10" required>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="runGenCalc()" class="btn btn-warning w-100 text-dark text-uppercase fw-bold rounded-1 py-2 shadow-sm">
+                        Запустить расчет
+                    </button>
+                </form>
+
+                <!-- Результаты расчета -->
+                <div id="genCalcResult" class="mt-4 p-3 bg-white text-dark rounded-1 d-none animate fade-in">
+                    <div class="row text-center align-items-center mb-3">
+                        <div class="col-4 border-end">
+                            <span class="text-muted small d-block" style="font-size: 0.7rem;">Общий вес</span>
+                            <span id="genResWeight" class="fw-bold text-dark fs-6">0</span> <span class="fw-bold small">кг</span>
+                        </div>
+                        <div class="col-4 border-end">
+                            <span class="text-muted small d-block" style="font-size: 0.7rem;">Упаковок/Шт.</span>
+                            <span id="genResBags" class="fw-bold text-warning fs-5">0</span> <span class="fw-bold small">ед.</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="text-muted small d-block" style="font-size: 0.7rem;">Стоимость</span>
+                            <span id="genResPrice" class="fw-bold text-dark fs-6">0</span> <span class="fw-bold small">₽</span>
+                        </div>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                    <button type="button" id="btnGenAddToCart" class="btn btn-warning w-100 text-dark text-uppercase fw-bold btn-sm py-2 rounded-1 shadow-sm">
+                        <i class="bi bi-cart-plus me-1"></i> Добавить расчет в корзину
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+let genCalculatedBags = 0;
+let genProductId = 0;
+
+function runGenCalc() {
+    const select = document.getElementById('genCalcProduct');
+    const productId = select.value;
+    const surfaceType = document.getElementById('genCalcSurface').value;
+    const area = document.getElementById('genCalcArea').value;
+    const thickness = document.getElementById('genCalcThickness').value;
+    
+    const selectedOption = select.options[select.selectedIndex];
+    const price = parseFloat(selectedOption.getAttribute('data-price') || 0);
+
+    fetch('/catalog/calculate_consumption', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            product_id: parseInt(productId),
+            surface_type: surfaceType,
+            area: parseFloat(area),
+            thickness: parseFloat(thickness)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.error) {
+            showCartToast(data.error, "danger");
+        } else {
+            genCalculatedBags = data.bags_needed;
+            genProductId = productId;
+            const totalPrice = (genCalculatedBags * price).toFixed(2);
+
+            document.getElementById('genCalcResult').classList.remove('d-none');
+            document.getElementById('genResWeight').innerText = data.total_weight_kg;
+            document.getElementById('genResBags').innerText = genCalculatedBags;
+            document.getElementById('genResPrice').innerText = totalPrice;
+
+            const btn = document.getElementById('btnGenAddToCart');
+            if (btn) {
+                btn.onclick = function() {
+                    addToCart(genProductId, genCalculatedBags);
+                    // Закрываем модалку после успешного добавления
+                    const modalEl = document.getElementById('generalCalcModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    modal.hide();
+                };
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка расчета:', error);
+        showCartToast("Не удалось произвести расчет", "danger");
+    });
+}
+
+// Скрытие поля толщины для листовых/профильных материалов при выборе товара
+document.getElementById('genCalcProduct').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const category = selectedOption.getAttribute('data-category');
+    const thicknessCol = document.getElementById('genCalcThicknessCol');
+    const thicknessInput = document.getElementById('genCalcThickness');
+    
+    if (category === 'gipsokarton' || category === 'profil' || category === 'kraski') {
+        thicknessCol.classList.add('d-none');
+        thicknessInput.value = '10';
+    } else {
+        thicknessCol.classList.remove('d-none');
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}
